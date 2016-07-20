@@ -298,7 +298,7 @@ var utility = {
 /* Detailer View Handler */
 
 function enableDetailView() {
-  var showDetailsModal = function(id) {
+  var showDetailsModal = function(id,trigger) {
     var $detailViewTitle = $("#detail-view-wrapper h3");
     var $detailViewContent = $("#detail-view-wrapper .content");
     var $projectSummary = $("#"+id).children(".projectSummary");
@@ -315,6 +315,15 @@ function enableDetailView() {
 
     // FIXME: just a quick solution to add id query param to URL
     window.history.pushState(id, "", window.location.href.split("?")[0] + "?id=" + id);
+
+    if (trigger === 'click') {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Detail View',
+        eventAction: 'Clicked on Card',
+        eventLabel: id
+      });
+    }
   };
 
   var toggleOverlay = function(onOrOff) {
@@ -332,7 +341,7 @@ function enableDetailView() {
   };
 
   $(".project").on('click', function() {
-    showDetailsModal($(this).attr('id'));
+    showDetailsModal($(this).attr('id'),'click');
   });
   $("#close-control").on('click', function() {
     toggleOverlay('off');

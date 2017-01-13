@@ -23,6 +23,7 @@ export default React.createClass({
               <IndexLink to="/"><img src="/assets/svg/pulse-wordmark.svg" width="160" alt="Mozilla Network Pulse" /></IndexLink>
             </div>
             <ul>
+              <li><SelectorLink to="/test" className="text-nav-link">DB Data Test</SelectorLink></li>
               <li><SelectorLink to="/featured" className="text-nav-link">Featured</SelectorLink></li>
               <li><SelectorLink to="/latest" className="text-nav-link">Latest</SelectorLink></li>
               <li><SelectorLink to="/issues" className="text-nav-link">Issues</SelectorLink></li>

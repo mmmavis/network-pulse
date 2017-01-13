@@ -2,8 +2,12 @@ import express from 'express';
 import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { Router, browserHistory, match, RouterContext } from 'react-router';
 import routes from './routes.jsx';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import counterApp from './reducers/counter.jsx';
 
 const app = express();
 
@@ -20,13 +24,25 @@ app.get(`*`, (req, res) => {
     } else if (props) {
       // we've got props!
       // let's match a route and render the corresponding page component
-      const appHtml = renderToString(<RouterContext {...props}/>);
+
+      // create a new Redux store instance
+      const store = createStore(counterApp);
+
+      // grab the initial state from our Redux store
+      const preloadedState = store.getState();
+
+      // render the component to a string
+      const appHtml = renderToString(
+        <Provider store={store}>
+          <RouterContext {...props} />
+        </Provider>
+      );
 
       if (props.components[props.components.length-1].displayName === `not-found`) {
         // if route matches the "Not Found" route, let's render the "Not Found" 404 page
-        res.status(404).send(renderPage(appHtml));
+        res.status(404).send(renderFullPage(appHtml, preloadedState));
       } else {
-        res.status(200).send(renderPage(appHtml));
+        res.status(200).send(renderFullPage(appHtml, preloadedState));
       }
     } else {
       // nothing was matched
@@ -35,7 +51,7 @@ app.get(`*`, (req, res) => {
   });
 });
 
-function renderPage(appHtml) {
+function renderFullPage(appHtml, preloadedState) {
   // this is basically the same as what we have in ./index.html,
   // except that we are inserting appHtml as inner DOM of <div id="app"></div>
   return `<!doctype html>
@@ -57,6 +73,11 @@ function renderPage(appHtml) {
               </head>
               <body>
                 <div id="app">${appHtml}</div>
+                <script>
+                  // WARNING: See the following for Security isues with this approach:
+                  // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
+                  window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}
+                </script>
                 <script src="/bundle.js"></script>
               </body>
             </html>`;

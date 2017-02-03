@@ -16,10 +16,10 @@ import Footer from './components/footer/footer.jsx';
 
 const App = React.createClass({
   componentDidMount() {
-    setTimeout(function() {
+    // setTimeout(function() {
       this.splash.classList.add(`dismissed`);
       document.querySelector(`#app`).classList.add(`splash-dismissed`);
-    }, 3000);
+    // }, 3000);
   },
   render() {
     return (

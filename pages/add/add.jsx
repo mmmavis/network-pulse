@@ -4,6 +4,10 @@ import HintMessage from '../../components/hint-message/hint-message.jsx';
 import utility from '../../js/utility';
 import user from '../../js/app-user';
 
+// import { Form } from 'react-formbuilder';
+import PulseForm from './form/builder/pulse-form.jsx';
+import Form from './form/builder/form.jsx';
+
 export default React.createClass({
   getInitialState() {
     return {
@@ -67,8 +71,110 @@ export default React.createClass({
     return this.getAnonymousContent();
   },
   render() {
+    var formFields = {
+      title: {
+        type: `text`,
+        label: `Title of the project`,
+        placeholder: `Title`,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      content_url: {
+        type: `text`,
+        label: `URL`,
+        placeholder: `https://example.com`,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      description: {
+        type: `textarea`,
+        label: `Describe what you are sharing. Keep it simple and use plain language.`,
+        placeholder: `Description`,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      creators: {
+        type: `text`,
+        label: `Who are the creators? This could be staff, contributors, partners…`,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      tags: {
+        type: `text`,
+        label: `Keywords to help with search by program, event, campaign, subject …`,
+        placeholder: `#mozfest  #code  #tool`,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      issues: {
+        type: `checkboxGroup`,
+        label: `Check any Key Internet Issues that relate to your project.`,
+        options: [`Privacy & Security`, `Open Innovation`, `Decentralization`, `Web Literacy`, `Digital Inclusion`],
+        colCount: 1,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      get_involved: {
+        type: `text`,
+        label: ` Looking for support? Describe how people can do that.`,
+        placeholder: `Contribute to the code.`,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      get_involved_url: {
+        type: `text`,
+        label: `Link for people to get involved.`,
+        placeholder: `https://example.com`,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+      thumbnail_url: {
+        type: `text`,
+        label: `URL to thumbnail image`,
+        placeholder: `https://example.com`,
+        optional: true,
+        labelClassname: `form-control-label`,
+        fieldClassname: `form-control`,
+        validator: {
+          error: ``
+        }
+      },
+    };
+
     return (
       <div className="add-page">
+        <Form fields={formFields} onSubmit={function(){}} onUpdate={null} />
+        <PulseForm />
         { this.getContent() }
       </div>
     );

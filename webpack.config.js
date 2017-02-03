@@ -1,3 +1,5 @@
+var path = require(`path`);
+
 module.exports = {
   context: `${__dirname}`,
   entry: `./main.jsx`,
@@ -21,5 +23,7 @@ module.exports = {
         loader: `json`
       }
     ]
-  }
+  },
+  resolve: { fallback: path.join(__dirname, "node_modules") },
+  resolveLoader: { fallback: path.join(__dirname, "node_modules") }
 };
